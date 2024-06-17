@@ -355,9 +355,14 @@ public class GradeExam {
 				System.out.println("영어 평균 : " + (double) engTotal / count);
 				System.out.println("영어 최고점수 : " + korTotal / count);// -->수정
 				System.out.println("영어 최저점수 : " + korTotal / count);// -->수정
-				
+				break;
 			case 2:
-				personalView(korScores, engScores, name);
+				System.out.println("학생의 이름을 입력하세요.>>>");
+					String selname = analysisSC.next(); //입력된 학생이름 검색(키보드 입력)
+					
+					
+					
+				
 			default:
 				System.out.println("잘못된 입력입니다. 1~2번 중 입력해 주세요.");
 				break;
