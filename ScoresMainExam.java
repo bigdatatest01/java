@@ -1,149 +1,212 @@
-package ch06.ScoresCard;
+package ch06.ScoresBoard;
 
 import java.util.Scanner;
 
 public class ScoresMainExam {
 	// 필드 ->멤버변수로 main에서 사용할 배열이나 객체 등을 생성
-	private static Scanner input = new Scanner(System.in); // 현 class 내의 메서드에서 호출되어 사용함
-	private static Student[] st = new Student[5]; // 학생객체용으로 5칸 배열 생성
-	// String[] string = new String[5];
+	private static Scanner input = new Scanner(System.in); // 공용스캐너
+	private static Student[] st = new Student[5]; // Student 클래스 이용할 객체
+	private static Teacher[] tc = new Teacher[3]; //Teacher 클래스 이용할 객체
 
-	// 생성자 -> main일 경우 new 사용하지 않음(정적 static으로 사용하지 않음)
+	// 생성자-> main일 경우 new 사용하지 않음(정적 static으로 사용하지 않음)
 
 	// 메서드
 	public static void main(String[] args) {
-		// 주실행 클래스로 메뉴와 클래스.메서드 호출용으로 작업
-		// 객체 : 학생, 성적, 통계...
-		boolean run = true; // 반복실행 시작
+		// 주실행 클래스 : 다른 클래스, 메서드 호출용
 
-		while (run) {// 종료 run=false;
-			System.out.println("=============학생관리 프로그램v2(객체)==============");
-			System.out.println("1. 학생관리 | 2. 성적입력 | 3. 통계 | 4. 종료");
-			System.out.println("=============================================");
+		boolean run = true;
+
+		while (run) {
+			System.out.println("============ 학생관리 프로그램 v2 =========");
+			System.out.println("1. 학생관리 | 2. 성적입력 | 3. 통계 \n4. 종료 | 5. 교사등록 | 6. 교사검색");
+			System.out.println("======================================");
 			System.out.print(">>>");
-			int select = input.nextInt(); // 객체사용 전에 private static 확인
+			int selectNum = input.nextInt(); // 주메뉴 선택번호 받기
 
-			switch (select) {
+			switch (selectNum) {
 			case 1:
-				System.out.println("학생관리 클래스로 진입합니다.");
+				System.out.println("학생관리 클래스를 실행합니다.");
 				boolean strun = true;
 				while (strun) {
-					System.out.println("1. 학생등록 | 2. 학생보기 | 3. 학생수정 | 4. 학생삭제 | 5. 메인메뉴 ");
+					System.out.println("=============== 1.학생관리 =============");
+					System.out.println("1. 학생등록 | 2. 학생보기 | 3. 수정하기 \n4. 삭제하기 | 5. 종료");
+					System.out.println("======================================");
 					System.out.print(">>>");
-					int stSelect = input.nextInt();
-
-					switch (stSelect) {
+					int selectNum2 = input.nextInt(); // 부메뉴 선택번호 받기
+					switch (selectNum2) {
 					case 1:
-						System.out.println("학생등록 메뉴입니다.");
-						Student regStudent = new Student(); // 객체생성
+						System.out.println("학생등록을 시작합니다.");
+						Student regStudent = new Student();// 객체생성
 						System.out.println("이름 : ");
-						regStudent.name = input.next(); // 키보드로 받은 이름
+						regStudent.name = input.next();
 						System.out.println("학번 : ");
-						regStudent.num = input.nextInt(); // 키보드로 받은 학번
-						System.out.println("성별 : ");
-						regStudent.sex = input.next(); // 키보드로 받은 성별
+						regStudent.studentNum = input.nextInt();
 						System.out.println("학년 : ");
-						regStudent.grade = input.nextInt(); // 키보드로 받은 학년
+						regStudent.grade = input.nextInt();
 						System.out.println("반 : ");
-						regStudent.classroom = input.nextInt(); // 키보드로 받은 반
-						System.out.println("---객체생성->입력완료---");
-						System.out.println("--배열 빈칸을 찾아 저장--");
+						regStudent.classRoom = input.nextInt();
+						System.out.println("성별 : ");
+						regStudent.sex = input.next(); // 입력받은 값을 객체의 멤버변수에 넣음
 
-						for (int i = 0; i < st.length; i++) {
-							if (st[i] == null) { // st 배열에 빈칸인지 찾음
-								st[i] = regStudent; // 위에서 만든 객체를 넣음
-								System.out.println("저장성공!!!");
-								break; // 저장후 종료
-							} // end of if()
-						} // end of for(null을 찾음)
-						break; // 학생등록용 정지
+						for (int i = 0; i < st.length; i++) {// Student 배열 돌면서
+							if (st[i] == null) {
+								st[i] = regStudent; // 배열 빈칸이면 입력값 저장
+								System.out.println(regStudent.name + " 학생이 등록되었습니다.");
+								break; // 저장 후 for 반복 종료
+							} // 1-1. if문 종료
+						} // 1-1.for문 종료
+						break;
 					case 2:
-						System.out.println("전체학생보기");
-
-						for (int i = 0; i < st.length; i++) {
-							if (st[i] != null) { // st배열 칸이 null이 아니면
-								System.out.println("-------------------------");
-								System.out.println("이름 : " + st[i].name);
-								System.out.println("학번 : " + st[i].num);
-								System.out.println("성별 : " + st[i].sex);
-								System.out.println("학년 : " + st[i].grade);
-								System.out.println("반 : " + st[i].classroom);
-							} // if문 종료
-						} // end of for(st배열 전체 반복종료)
-						break; // 학생보기 정지
+						System.out.println("**전체학생 보기**");
+						for (int i = 0; i < st.length; i++) { // 배열돌면서 출력
+							if (st[i] != null) {
+								System.out.println("----------------------------");
+								System.out.printf("이름 : %s \t학번 : %d\n%d학년 %d반 \t성별 : %s\n", st[i].name,
+										st[i].studentNum, st[i].grade, st[i].classRoom, st[i].sex);
+							} // 1-2.if문 종료
+						} // 1-2.for문 종료
+							// Student findStudent = find(name);
+						break;
 					case 3:
 						System.out.println("수정할 학생명을 입력하세요.");
 						System.out.print(">>>");
 						String searchName = input.next();
-						Student findStudent = find(searchName); // 아래 만든 메서드로 찾아옴
+						Student findStudent = find(searchName);
 						if (findStudent == null) {
 							System.out.println("해당하는 학생이 존재하지 않습니다.");
-						} else {// 찾은학생이 있으면
-							System.out.println("수정할 학생 번호를 입력하세요.");
-							findStudent.num = input.nextInt();
-							System.out.println("학생정보 수정완료");
-						}
+						} else {
+							System.out.println("수정할 정보를 선택하세요.-------");
+							System.out.println("1. 학번 | 2. 학년 | 3. 반 | 4. 성별");
+							System.out.print(">>>");
+							int modifyData = input.nextInt();
+							switch (modifyData) {
+							case 1:
+								System.out.println("수정할 학번을 입력하세요.");
+								findStudent.studentNum = input.nextInt();
+								System.out.println(
+										findStudent.name + " 학생의 학번이 " + findStudent.studentNum + "으로 수정되었습니다.");
+								break;
+							case 2:
+								System.out.println("수정할 학년을 입력하세요.");
+								findStudent.grade = input.nextInt();
+								System.out.println(findStudent.name + " 학생이 " + findStudent.grade + "학년으로 수정되었습니다.");
+								break;
+							case 3:
+								System.out.println("수정할 반을 입력하세요.");
+								findStudent.classRoom = input.nextInt();
+								System.out.println(findStudent.name + " 학생이 " + findStudent.classRoom + "반으로 수정되었습니다.");
+								break;
+							case 4:
+								System.out.println(findStudent.name + "의 성별은" + findStudent.sex + " 입니다. 수정하시겠습니까?");
+								System.out.println("예:1 / 아니오:2 >>>");
+								int yesNo = input.nextInt();
+								if (yesNo == 1) {// 예를 선택시
+									if (findStudent.sex.equals("남")) { // 남자면
+										findStudent.sex = "여"; // 여자로 바꾸고
+									} else {
+										findStudent.sex = "남"; // 여자면 남자로 바꾸고
+									}
+								}
+								System.out.println(findStudent.name + " 학생이 " + findStudent.sex + "으로 수정되었습니다.");
+								break;
+							default:
+								System.out.println("잘못된 입력입니다. 1~4번까지만 입력해 주세요.");
+							}// 1-3.switch문 종료
+						} // if문 종료
+
 						break;
 					case 4:
 						System.out.println("삭제할 학생명을 입력하세요.");
 						System.out.print(">>>");
 						String deleteName = input.next();
-						Student deleteStudent = find(deleteName); // 아래 만든 메서드가 객체를 찾아옴
-						if (deleteStudent == null) {
-							System.out.println("삭제할 학생이 존재하지 않습니다.");
-						} else {// 삭제할 학생이 있으면
-							for (int i = 0; i < st.length; i++) {
-								//System.out.println(st[i].name);
-								//System.out.println(deleteStudent.name);
-								if (st[i].name.equals(deleteStudent.name)) { // 배열과 찾은이름 비교
-									st[i] = null; // 삭제
+						Student deleteStudent = find(deleteName); // find()메서드로 학생 찾아옴
+						if(deleteStudent==null) {
+							System.out.println("해당하는 학생이 존재하지 않습니다.");
+						}else {
+							for(int i=0;i<st.length;i++) {
+								if(st[i].name.equals(deleteStudent.name)) {//원래 배열과 찾은이름이 같다면
+									st[i]=null;
 									System.out.println("삭제완료!!");
 									break;
 								}
-							} // for문 종료
+								
+							}//for문 종료
+						}//1-4.if문 종료
 
-						} // if문 종료
 						break;
 					case 5:
-						System.out.println("메인메뉴로 복귀합니다.");
+						System.out.println("학생관리 클래스를 종료합니다.");
 						strun = false;
+						break;
 					default:
-						System.out.println("1~4번까지 입력해 주세요.");
-					}// end of switch
-				} // end of while
+						System.out.println("잘못된 입력입니다. 1~5번까지만 입력해 주세요.");
+					}// 1. 학생관리-부메뉴switch 종료
+
+				} // 1. 학생관리메뉴 while문 종료
+
 				break;
 			case 2:
-				System.out.println("성적입력 클래스로 진입합니다.");
+				System.out.println("성적입력 클래스를 실행합니다.");
 				break;
 			case 3:
-				System.out.println("통계 클래스로 진입합니다.");
+				System.out.println("통계 클래스를 실행합니다.");
 				break;
 			case 4:
-				System.out.println("학생관리 프로그램을 종료합니다.");
+				System.out.println("학생관리 프로그램을 종료합니다. 안녕히 가세요.");
 				run = false;
 				break;
+			case 5:
+				System.out.println("교사등록을 시작합니다.");
+				Teacher regTeacher = new Teacher(); //교수용 객체생성
+				System.out.println("교사명 : ");
+				regTeacher.teacherName = input.next(); //교수명 입력받기
+				System.out.println("메일주소 : ");
+				regTeacher.mailAddress = input.next(); 
+				System.out.println("담당학년 : ");
+				regTeacher.resGrade = input.nextInt();
+				System.out.println("담당 반 : ");
+				regTeacher.resClass = input.nextInt();
+				System.out.println("담당과목 : ");
+				regTeacher.resSubject=input.next();
+				System.out.println("ID : ");
+				regTeacher.teacherid=input.next();
+				System.out.println("PW : ");
+				regTeacher.teacherpw=input.next();
+				
+				for(int i=0;i<tc.length;i++) {//Teacher 배열 돌면서
+					if(tc[i]==null) {
+						tc[i]=regTeacher; //Teacher 빈 곳에 regTeacher(입력값) 넣기
+						System.out.println(regTeacher.teacherName +"선생님이 등록되었습니다.");
+						break;
+					}else {
+						System.out.println("등록할 공간이 없습니다. 담당자에게 문의하세요.");
+					}
+				}//for문 종료
+				
+				
+				break;
 			default:
-				System.out.println("1~4번 값만 입력하세요.");
-				// break문을 작성하면 꺼짐
-			}// end of switch(주메뉴용)
-		} // end of while
+				System.out.println("잘못된 입력입니다. 1~4번까지만 입력해 주세요.");
+			}// 주메뉴-switch문 종료
 
-	} // end of main()
+		} // 1. 주메뉴 -while문 종료
+		input.close();
+
+		/* 메서드-이름검색 ->return은 Student 객체로 */
+
+	} // main()종료
 
 	private static Student find(String name) {
-		// 이름으로 객체를 찾아오는 메서드 ->리턴은 Student 객체
-		Student student = null;// 빈객체 생성
+		Student student = null; // 빈객체 생성
 		for (int i = 0; i < st.length; i++) {
-			if (st[i] != null) {
-				String arrayName = st[i].name; // 배열에 있는 이름을 가져옴
-				if (arrayName.equals(name)) { // 배열 name과 키보드 name 비교
-					student = st[i]; // 찾은 객체를 빈 객체에 넣음
+			if (st[i] != null) {// 비어있지 않으면
+				String arrayName = st[i].name; // 배열의 이름을 가져옴
+				if (arrayName.equals(name)) {
+					student = st[i];// 빈 객체에 검색한 객체 넣음
 					break;
-				}
-			} // if문 종료
+				} // if문 종료2
+			} // if문 종료1
 		} // for문 종료
-
-		return student; // 리턴 객체
-	}// find 메서드 종료
-
-} // end of class
+		return student; // 리턴객체
+	}// find()종료
+}
